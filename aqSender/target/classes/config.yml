@@ -1,3 +1,0 @@
-activeMQ:
-  brokerUrl: tcp://localhost:61616
-  schedulerSupport: true

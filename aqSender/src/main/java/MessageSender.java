@@ -37,12 +37,18 @@ public class MessageSender {
         MessageProducer producer = session.createProducer(destination);
 
         // We will send a small text message saying 'Hello World!!!'
-        TextMessage message = session
-                .createTextMessage("Hello !!! -----------");
+        int cnt =0;
+        while(cnt<10) {
+            TextMessage message = session
+                    .createTextMessage("Hello object!!! -----------"+cnt);
 
-        long time = 15 * 60 * 1000;
-        message.setLongProperty(ScheduledMessage.AMQ_SCHEDULED_DELAY, time);
-        producer.send(message);
-//        connection.close();
+            long time = cnt * 60 * 1000;
+            message.setLongProperty(ScheduledMessage.AMQ_SCHEDULED_DELAY, time);
+
+            producer.send(message);
+            cnt++;
+        }
+
+        connection.close();
     }
 }

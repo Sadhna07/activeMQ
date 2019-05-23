@@ -34,16 +34,18 @@ public class MessageReceiver {
 
         // MessageConsumer is used for receiving (consuming) messages
         MessageConsumer consumer = session.createConsumer(destination);
+        while(true) {
+            Message message = consumer.receive();
 
-        Message message = consumer.receive(50000);
+            // We will be using TestMessage in our example. MessageProducer sent us a TextMessage
+            // so we must cast to it to get access to its .getText() method.
+            if (message instanceof TextMessage) {
+                TextMessage textMessage = (TextMessage) message;
+                System.out.println("\nReceived message '" + textMessage.getText() + "'\n");
+            }
+//            connection.close();
 
-        // We will be using TestMessage in our example. MessageProducer sent us a TextMessage
-        // so we must cast to it to get access to its .getText() method.
-        if (message instanceof TextMessage) {
-            TextMessage textMessage = (TextMessage) message;
-            System.out.println("\nReceived message '" + textMessage.getText() + "'\n");
         }
-        connection.close();
 
     }
 }
